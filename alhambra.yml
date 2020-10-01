@@ -1,0 +1,40 @@
+parameters:
+  a_M_SF: -1.03
+  b_M_SF: -20.485
+  a_phi_SF: -2.505
+  b_phi_SF: -43.4294
+  alpha_SF: -1.29
+  a_M_Q: -0.80
+  b_M_Q: -20.46
+  a_phi_Q: -2.555
+  b_phi_Q: -1.05925
+  alpha_Q: -0.53
+cosmology: !astropy.cosmology.FlatLambdaCDM
+  H0: 70.
+  Om0: 0.3
+z_range: !numpy.arange [0, 1.01, 0.1]
+mag_lim: 30
+fsky: 5.7692866e-05
+M_star_B_SF: !astropy.modeling.models.Linear1D [$a_M_SF, $b_M_SF]
+phi_star_B_SF: !astropy.modeling.models.Exponential1D [!numpy.power [10., $a_phi_SF], $b_phi_SF]
+M_star_B_Q: !astropy.modeling.models.Linear1D [$a_M_Q, $b_M_Q]
+phi_star_B_Q: !astropy.modeling.models.Exponential1D [!numpy.power [10., $a_phi_Q], $b_phi_Q]
+tables:
+  SF:
+    z, M: !skypy.galaxy.schechter_lf
+      redshift: $z_range
+      M_star: $M_star_B_SF
+      phi_star: $phi_star_B_SF
+      alpha: $alpha_SF
+      m_lim: $mag_lim
+      fsky: $fsky
+      noise: false
+  Q:
+    z, M: !skypy.galaxy.schechter_lf
+      redshift: $z_range
+      M_star: $M_star_B_Q
+      phi_star: $phi_star_B_Q
+      alpha: $alpha_Q
+      m_lim: $mag_lim
+      fsky: $fsky
+      noise: false
