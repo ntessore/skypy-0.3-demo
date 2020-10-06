@@ -3,4 +3,5 @@ scipy == 1.5.2
 astropy == 4.0.1
 specutils == 1.0
 matplotlib == 3.2.2
-skypy @ git+https://github.com/skypyproject/skypy.git
+skypy == 0.3rc2
+skypy-data @ https://github.com/skypyproject/skypy-data/archive/master.tar.gz
